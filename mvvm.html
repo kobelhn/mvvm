@@ -9,8 +9,9 @@
     <div id="app">
         <div>{{a.a}}</div>
         <div>{{b}}</div>
-        <input type="text" v-model="b">
+        <input type="text" v-model="c.c.c">
         <div>{{hello}}</div>
+        {{c.c.c}}
     </div>
 </body>
 <script src="mvvm.js"></script>
@@ -21,7 +22,12 @@
             a: {
                 a: 'hello world'
             },
-            b: '你好生活'
+            b: '你好生活',
+            c: {
+                c: {
+                    c: '为汤姆斯杯'
+                }
+            }
         },
         computed: {
             hello() {
