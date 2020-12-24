@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mvvm</title>
+</head>
+<body>
+    <div id="app">
+        <div>{{a.a}}</div>
+        <div>{{b}}</div>
+        <input type="text" v-model="b">
+        <div>{{hello}}</div>
+    </div>
+</body>
+<script src="mvvm.js"></script>
+<script>
+    let mvvm = new MVVM({
+        el: '#app',
+        data: {
+            a: {
+                a: 'hello world'
+            },
+            b: '你好生活'
+        },
+        computed: {
+            hello() {
+                return this.a.a + this.b;
+            }
+        }
+    });
+</script>
+</html>

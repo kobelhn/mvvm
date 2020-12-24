@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+</body>
+<script>
+/**
+    1.参考《你不知道的javascript（上卷）》第三章 对象 对象的内容
+        在es5之前，Javascript语言本身没有提供可以直接检测属性特性的方法，比如判断属性是否只读
+        从es5开始，所有属性都具备了「属性描述符」
+    2.参考MDN：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
+        对象里目前存在的属性描述符有两种主要形式：「数据描述符」和「存取描述符」。
+        configurable
+            当且仅当该属性的 configurable 键值为 true 时，该属性的描述符才能够被改变，同时该属性也能从对应的对象上被删除。
+            默认为 false。
+        enumerable
+            当且仅当该属性的 enumerable 键值为 true 时，该属性才会出现在对象的枚举属性中。
+            默认为 false。
+        「数据描述符」还具有以下可选键值：
+        value
+            该属性对应的值。可以是任何有效的 JavaScript 值（数值，对象，函数等）。
+            默认为 undefined。
+        writable
+            当且仅当该属性的 writable 键值为 true 时，属性的值，也就是上面的 value，才能被赋值运算符改变。
+            默认为 false。
+        「存取描述符」还具有以下可选键值：
+        get
+            属性的 getter 函数，如果没有 getter，则为 undefined。当访问该属性时，会调用此函数。执行时不传入任何参数，但是会传入 this 对象（由于继承关系，这里的this并不一定是定义该属性的对象）。该函数的返回值会被用作属性的值。
+            默认为 undefined。
+        set
+            属性的 setter 函数，如果没有 setter，则为 undefined。当属性值被修改时，会调用此函数。该方法接受一个参数（也就是被赋予的新值），会传入赋值时的 this 对象。
+            默认为 undefined。
+**/
+    const a = {
+        a: 2
+    };
+    // eg1：查看属性描述符
+    console.log('对象a的属性a的属性描述符：', Object.getOwnPropertyDescriptor(a, 'a'));
+    /*
+        结果：
+        {
+            configurable: true
+            enumerable: true
+            value: 2
+            writable: true
+            __proto__: Object
+        }
+    */
+    // eg2：enumberable测试
+    let obj = {};
+    Object.defineProperty(obj, 'name', {
+        configurable: true,
+        writable: true,
+        value: 'kobe',
+        enumerable: false
+    });
+    console.log('对象obj的可枚举属性的个数：', Object.keys(obj).length);
+
+    // eg3：get 和 set 测试
+    let obj2 = {};
+    Object.defineProperty(obj2, 'name', {
+        configurable: true,
+        enumerable: true,
+        // 使用 get 和 set 时不能存在这两个属性描述符
+        // value: 'kobe',
+        // writable: true,
+        get () {
+            return 'kobe';
+        },
+        set (newVal) {
+            console.log(newVal);
+        }
+    });
+    console.log('对象obj2的属性name的值', obj2.name);
+    // 给obj2对象的属性name赋值时会调用set方法 set方法没有对newVal做处理，所以并不能改变name属性的值
+    obj2.name = 'haha';
+    console.log('对象obj2的属性name的值', obj2.name);
+</script>
+</html>
